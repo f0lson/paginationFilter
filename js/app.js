@@ -80,7 +80,7 @@ const appendPageLinks = (studentList) => {
 /*=============================
     Search Functionality
 =============================*/
-/*
+
 
 const searchDiv = document.createElement('div');
 searchDiv.className = 'student-search';
@@ -98,9 +98,16 @@ pageHeader.append(searchDiv);
 const searchList = () => {
     // Obtain the value of the search input
     let userSearch = searchInput.value;
+    console.log(userSearch);
     // remove the previous page link section
     // Loop over the student list, and for each student…
-    console.log(userSearch);
+    for ( let i = 0; i < students.length; i++ ) {
+        let studentName = students[i].querySelector('h3').textContent;
+        let studentEmail = students[i].querySelector('span.email').textContent;
+        if ( studentName.includes(userSearch.textContent) ) {
+            console.log(`It's a match!`);
+        }
+    }
         // ...obtain the student’s name…
         // ...and the student’s email…
         // ...if the search value is found inside either email or name…
@@ -112,7 +119,10 @@ const searchList = () => {
    // Call showPage to show first ten students of matched list
 }
 
-*/
+searchBtn.addEventListener('click', () => {
+    searchList();
+    console.log('clicked!');
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     showPage(1, students);
