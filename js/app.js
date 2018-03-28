@@ -2,6 +2,19 @@ const pageHeader = document.querySelector('.page-header');
 const studentsList = document.querySelector
 const students = document.querySelectorAll('li.student-item');
 
+const createElement = ( name, prop1, value1, prop2, value2 ) => {
+    let element = document.createElement(name);
+    element[prop1] = value1;
+    element[prop2] = value2;
+    return element;
+}
+
+const hideStudents = ( collection ) => {
+    for ( let i = 0; i < collection.length; i++ ) {
+        collection[i].style.display = 'none';
+    }
+}
+
 const showPage = (pageNumber, studentList) => {
     let studentsPerPage = 10;
     // Then loop through all students in our student list argument
@@ -31,6 +44,12 @@ const addActiveClass = () => {
     const uList = document.querySelector('.pagination ul');
     const anchor = uList.querySelectorAll('a')[0];
     anchor.className = 'active';
+}
+
+const removePageLinks = () => {
+    let paginationLinks = document.querySelector('.pagination');
+    let parent = paginationLinks.parentNode;
+    parent.removeChild(paginationLinks);
 }
 
 const appendPageLinks = (studentList) => {
@@ -81,18 +100,13 @@ const appendPageLinks = (studentList) => {
     Search Functionality
 =============================*/
 
+const searchDiv = createElement('div', 'className', 'student-search', '', '');
+const searchInput = createElement('input', 'type',  'text', 'placeholder', 'Search for students');
+searchInput.className = 'alert';
+const searchBtn = createElement('button', 'type', 'submit', 'textContent', 'Search');
 
-const searchDiv = document.createElement('div');
-searchDiv.className = 'student-search';
-const searchInput = document.createElement('input');
-searchInput.type = 'text';
-searchInput.placeholder = 'Search for students';
-const searchBtn = document.createElement('button');
-searchBtn.type = 'submit';
-searchBtn.textContent = 'Search';
 searchDiv.append(searchInput);
 searchDiv.append(searchBtn);
-
 pageHeader.append(searchDiv);
 
 const searchList = () => {
@@ -100,32 +114,51 @@ const searchList = () => {
     let userSearch = searchInput.value;
     console.log(userSearch);
     // remove the previous page link section
+    hideStudents(students);
+    // hide the pagination links
+    removePageLinks();
+    // creating the new matchedStudents array to house those who matched the search criteria
+    let matchedStudents = [];
     // Loop over the student list, and for each student…
     for ( let i = 0; i < students.length; i++ ) {
+        // ...obtain the student's name…
         let studentName = students[i].querySelector('h3').textContent;
+        // ...and the student’s email…
         let studentEmail = students[i].querySelector('span.email').textContent;
-        if ( studentName.includes(userSearch.textContent) ) {
-            console.log(`It's a match!`);
+
+        // if the student name/email includes any of the characters in the user's search
+        if ( studentName.includes(userSearch.toLowerCase()) || studentEmail.includes(userSearch.toLowerCase()) ) {
+            // store the value of that student into the local student variable
+            let student = students[i];
+            // push value of student into matchedStudents array
+            matchedStudents.push(student);
         }
     }
-        // ...obtain the student’s name…
-        // ...and the student’s email…
-        // ...if the search value is found inside either email or name…
-    		// ...add this student to list of “matched” student
-    // If there’s no “matched” students…
-           // ...display a “no student’s found” message
-    // If over ten students were found…
-           // ...call appendPageLinks with the matched students
-   // Call showPage to show first ten students of matched list
+    // log out length of matchedStudents
+    console.log(matchedStudents.length);
+    if ( matchedStudents.length <= 0 ) {
+        let alert = createElement('div', 'className', 'alert', 'textContent', 'No student found, please search again');
+        let close = createElement('div', 'className', 'close', 'textContent', '');
+        alert.appendChild(close);
+        alert.style.display = 'inline-block';
+        alert.addEventListener('click', (e) => {
+            if ( e.target.className === 'close' ) {
+                alert.style.display = 'none';
+            }
+        });
+    } else {
+        showPage(1, matchedStudents);
+        appendPageLinks(matchedStudents);
+        addActiveClass();
+    }
+
+    searchInput.value = '';
 }
 
 searchBtn.addEventListener('click', () => {
     searchList();
-    console.log('clicked!');
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    showPage(1, students);
-    appendPageLinks(students);
-    addActiveClass();
-});
+showPage(1, students);
+appendPageLinks(students);
+addActiveClass();
