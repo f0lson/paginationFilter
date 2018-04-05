@@ -177,7 +177,6 @@ const searchList = () => {
         // append error msg to error div
         errorDiv.appendChild(errorMsg);
         page.appendChild(errorDiv);
-        console.log(errorDiv);
     } else if ( matchedStudents.length <= 10 ) {
         showPage(1, matchedStudents);
     } else {
@@ -185,7 +184,7 @@ const searchList = () => {
         appendPageLinks(matchedStudents);
         addActiveClass();
     }
-
+    // reseting the input's value
     searchInput.value = ``;
 }
 
