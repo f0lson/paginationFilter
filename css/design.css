@@ -14,6 +14,7 @@ body {
 
 .page-header {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .page-header h2 {
@@ -34,26 +35,47 @@ body {
     border: 1px solid #eaeaea;
     padding: 8px 15px;
     font-size: 14px;
-}
-
-.page-header .student-search input.alert {
-    border: 2px solid rgba(255, 0, 0, .7);
-    outline-color: rgba(255, 0, 0, .7);
     position: relative;
+    z-index: 100;
 }
 
-.page-header .student-search::before input.alert{
-    content: 'No Students Found';
-    display: block;
-    flex-direction: row;
-    padding: 5px;
+.page-header .alert {
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+    padding: 15px 12px 10px;
+    background: rgba(255, 0, 0, .7);
     color: #fff;
+    border-radius: 3px;
+    position: absolute;
+    opacity: 0;
+    top: -45px;
+    right: 80px;
     width: 150px;
-    background-color: tomato;
-    border-radius: 2px;
-    top: -25px;
-    left: 0;
-    z-index: 100;
+    transition: 250ms all ease;
+    z-index: 90;
+    font-size: 12px;
+}
+
+.page-header .alert .close::before,
+.page-header .alert .close::after {
+    content: '';
+    display: block;
+    width: 15px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    top: 12px;
+    right: 5px;
+    cursor: pointer
+}
+
+.page-header .alert .close::before {
+    transform: rotate(45deg);
+}
+
+.page-header .alert .close::after {
+    transform: rotate(135deg);
 }
 
 .page-header .student-search button {

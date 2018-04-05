@@ -9,13 +9,22 @@ const createElement = ( name, prop1, value1, prop2, value2 ) => {
     return element;
 }
 
+// function to hide students
+// a. array to be passed as argument
 const hideStudents = ( collection ) => {
+    // b. iterate thru data
     for ( let i = 0; i < collection.length; i++ ) {
+        // c. set every student's display value to none
         collection[i].style.display = 'none';
     }
 }
 
-const showPage = (pageNumber, studentList) => {
+/*=============================
+    Show Page Function
+=============================*/
+
+const showPage = ( pageNumber, studentList ) => {
+    // there should only be 10 students per page
     let studentsPerPage = 10;
     // Then loop through all students in our student list argument
     for (let i = 0; i < studentList.length; i++) {
@@ -31,7 +40,7 @@ const showPage = (pageNumber, studentList) => {
     }
 }
 
-const removeActiveClass = (a) => {
+const removeActiveClass = ( a ) => {
     let li = a.parentNode;
     let ul = li.parentNode;
     let anchors = ul.querySelectorAll('a');
@@ -40,22 +49,33 @@ const removeActiveClass = (a) => {
     }
 }
 
+// function to add the active class to the first page link after showPage() is called
 const addActiveClass = () => {
+    // a. select and store ul
     const uList = document.querySelector('.pagination ul');
+    // b. select and store the first <a> of uList
     const anchor = uList.querySelectorAll('a')[0];
+    // c. set class name to active
     anchor.className = 'active';
 }
 
+// function to remove pagination links
 const removePageLinks = () => {
+    // a. select and store pagination div
     let paginationLinks = document.querySelector('.pagination');
+    // b. traverse to paginationLinks parent node
     let parent = paginationLinks.parentNode;
+    // c. remove .pagination div from page
     parent.removeChild(paginationLinks);
 }
 
-const appendPageLinks = (studentList) => {
+/*=============================
+    Append Page Links Function
+=============================*/
+
+const appendPageLinks = ( studentList ) => {
     // determine how many pages for this student list
     let totalPages = Math.ceil(studentList.length / 10);
-
     // create a page link section
     // selecting the page div
     const page = document.querySelector('.page');
@@ -102,7 +122,6 @@ const appendPageLinks = (studentList) => {
 
 const searchDiv = createElement('div', 'className', 'student-search', '', '');
 const searchInput = createElement('input', 'type',  'text', 'placeholder', 'Search for students');
-searchInput.className = 'alert';
 const searchBtn = createElement('button', 'type', 'submit', 'textContent', 'Search');
 
 searchDiv.append(searchInput);
@@ -136,16 +155,25 @@ const searchList = () => {
     }
     // log out length of matchedStudents
     console.log(matchedStudents.length);
-    if ( matchedStudents.length <= 0 ) {
+    if ( matchedStudents.length <= 0 || userSearch === '') {
+        // creating the alert element
         let alert = createElement('div', 'className', 'alert', 'textContent', 'No student found, please search again');
+        // creating the close x
         let close = createElement('div', 'className', 'close', 'textContent', '');
+        // appending the close x to the alert div
         alert.appendChild(close);
-        alert.style.display = 'inline-block';
-        alert.addEventListener('click', (e) => {
+        // adding click handler to the close x
+        alert.addEventListener('click', ( e ) => {
             if ( e.target.className === 'close' ) {
                 alert.style.display = 'none';
+                searchInput.style.border = 'solid 1px #eaeaea';
             }
         });
+        searchInput.style.border = 'solid 2px rgba(255, 0, 0, .7)';
+        alert.style.opacity = 1;
+        pageHeader.appendChild(alert);
+        showPage(1, students);
+        appendPageLinks(students);
     } else {
         showPage(1, matchedStudents);
         appendPageLinks(matchedStudents);
