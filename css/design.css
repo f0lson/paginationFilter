@@ -39,43 +39,24 @@ body {
     z-index: 100;
 }
 
-.page-header .alert {
+.error {
     display: flex;
+    flex-direction: column;
+    height: 50px;
+    justify-content: center;
     text-align: center;
     flex-wrap: wrap;
-    padding: 15px 12px 10px;
-    background: rgba(255, 0, 0, .7);
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #ee5253;
+    border-radius: 4px;
+}
+
+.error-msg {
+    font-size: 14px;
     color: #fff;
-    border-radius: 3px;
-    position: absolute;
-    opacity: 0;
-    top: -45px;
-    right: 80px;
-    width: 150px;
-    transition: 250ms all ease;
-    z-index: 90;
-    font-size: 12px;
-}
-
-.page-header .alert .close::before,
-.page-header .alert .close::after {
-    content: '';
-    display: block;
-    width: 15px;
-    height: 2px;
-    background: #fff;
-    position: absolute;
-    top: 12px;
-    right: 5px;
-    cursor: pointer
-}
-
-.page-header .alert .close::before {
-    transform: rotate(45deg);
-}
-
-.page-header .alert .close::after {
-    transform: rotate(135deg);
+    line-height: 24px;
 }
 
 .page-header .student-search button {
@@ -158,4 +139,16 @@ body {
 .pagination li a.active, .pagination li a:hover {
     background-color: #4ba6c3;
     color: #fff;
+}
+
+@media screen and ( min-width: 600px ) {
+    .error {
+        height: 30px;
+    }
+    .error-msg {
+        font-size: 18px;
+        text-shadow: 0px 1px 0 #c0392b,
+                     0px 2px 0 #c0392b;
+        display: inline;
+    }
 }
