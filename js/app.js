@@ -3,10 +3,14 @@ const pageHeader = document.querySelector(`.page-header`);
 const studentsList = document.querySelector
 const students = document.querySelectorAll(`li.student-item`);
 
+// function to create element
 const createElement = ( name, prop1, value1, prop2, value2 ) => {
+    // storing new element in let
     let element = document.createElement(name);
+    // setting the new element's properties
     element[prop1] = value1;
     element[prop2] = value2;
+    // return the element
     return element;
 }
 
@@ -107,17 +111,20 @@ const appendPageLinks = ( studentList ) => {
 
 // function to remove pagination links
 const removePageLinks = () => {
-    // a. select and store pagination div
+    // select and store pagination div
     let paginationLinks = document.querySelector(`.pagination`);
+    // select error msg
     let errorMsg = document.querySelector(`.error`);
+    // if the .pagination div exists on the page
     if ( paginationLinks ) {
-        // b. traverse to paginationLinks parent node
+        // traverse to paginationLinks parent node
         let parent = paginationLinks.parentNode;
-        // c. remove .pagination div from page
+        // remove .pagination div from page
         parent.removeChild(paginationLinks);
-    } else if ( errorMsg ) {
-        page.removeChild(errorMsg);
+    } else if ( errorMsg ) {    // if .error is on the page
+        page.removeChild(errorMsg); // remove .error div
     } else {
+        // if there are no links on the page, log out msg to console
         console.log(`no links here!`);
     }
 }
@@ -163,9 +170,8 @@ const searchList = () => {
 
     console.log( `${matchedStudents.length} students matched the search term.`);
 
-
+    // if no results:
     if ( matchedStudents.length <= 0 || userSearch === ``) {
-        // if no results:
         // create error div
         const errorDiv = createElement(`div`, `className`, `error`);
         // create error msg
@@ -185,10 +191,14 @@ const searchList = () => {
     searchInput.placeholder = `Search again`
 }
 
+// when the searchBtn is clicked, run the searchList function
 searchBtn.addEventListener(`click`, () => {
     searchList();
 });
 
+// loading 1st 10 students on page load
 showPage(1, students);
+// appending page links
 appendPageLinks(students);
+// adding the active class to the first page link
 addActiveClass();
