@@ -85,10 +85,9 @@ const appendPageLinks = ( studentList ) => {
         // storing the index in pageNumber
         let pageNumber = i;
         // creating the pagination li
-        let paginationLi = document.createElement(`li`);
+        let paginationLi = createElement(`li`);
         // creating the pagination a
-        let paginationLink = document.createElement(`a`);
-        paginationLink.textContent = pageNumber;
+        let paginationLink = createElement(`a`, `textContent`, `${pageNumber}`);
         // define what happens when you click a link
         paginationLink.addEventListener(`click`, (e) => {
             let clickedLink = e.target;
@@ -99,14 +98,10 @@ const appendPageLinks = ( studentList ) => {
             // mark that link as “active”
             clickedLink.className = `active`;
         });
-        // append the link to the li
         paginationLi.appendChild(paginationLink);
-        // append the li to the ul
         paginationUl.appendChild(paginationLi);
     }
-    // appending the pagination ul to the pagination div
     paginationDiv.appendChild(paginationUl);
-    // append our new page link section to the site
     page.appendChild(paginationDiv);
 }
 
@@ -139,6 +134,7 @@ searchDiv.append(searchInput);
 searchDiv.append(searchBtn);
 pageHeader.append(searchDiv);
 
+// search function to fire when "Search" btn is clicked
 const searchList = () => {
     // Obtain the value of the search input
     let userSearch = searchInput.value;
@@ -186,6 +182,7 @@ const searchList = () => {
     }
     // reseting the input's value
     searchInput.value = ``;
+    searchInput.placeholder = `Search again`
 }
 
 searchBtn.addEventListener(`click`, () => {
